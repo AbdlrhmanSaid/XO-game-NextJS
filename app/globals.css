@@ -1,47 +1,207 @@
-.main {
+/* Global Styles */
+body {
+  font-family: "Arial", sans-serif;
+  background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+  min-height: 100vh;
+  margin: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: #333;
+}
+
+/* Game Container */
+.game-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2rem;
+  padding: 2rem;
+  max-width: 600px;
   width: 100%;
-  height: 100vh;
+}
+
+.game-title {
+  font-size: 3rem;
+  color: #2c3e50;
+  margin: 0;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* Game Board */
+.game-board {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+  width: 100%;
+  max-width: 400px;
+  aspect-ratio: 1/1;
+  background-color: #2c3e50;
+  padding: 10px;
+  border-radius: 10px;
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+}
+
+.game-board.game-ended {
+  opacity: 0.9;
+}
+
+/* Cell Styles */
+.cell {
+  background-color: #ecf0f1;
+  border-radius: 5px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.cell:hover:not([data-cell]) {
+  background-color: #d6eaf8;
+  transform: scale(0.98);
+}
+
+.cell.winning-cell {
+  background-color: #f1c40f;
+  animation: pulse 1s infinite alternate;
+}
+
+@keyframes pulse {
+  from {
+    transform: scale(1);
+  }
+  to {
+    transform: scale(1.05);
+  }
+}
+
+.symbol {
+  width: 80%;
+  height: 80%;
   display: flex;
   justify-content: center;
   align-items: center;
 }
 
-.gameBoard {
-  width: 300px;
-  height: 300px;
-  border: 1px solid;
-  display: flex;
-  justify-content: center;
-  flex-wrap: wrap;
-}
-.square {
-  width: calc(100% / 3);
-  height: 100px;
-  border: 1px solid;
-  box-sizing: border-box;
-}
-
-.contain {
+.symbol svg {
   width: 100%;
   height: 100%;
+}
+
+.symbol.circle svg circle {
+  fill: none;
+  stroke: #e74c3c;
+  stroke-width: 8;
+  stroke-linecap: round;
+}
+
+.symbol.cross svg line {
+  stroke: #3498db;
+  stroke-width: 8;
+  stroke-linecap: round;
+}
+
+/* Game Status */
+.game-status {
   text-align: center;
-  font-size: 84px;
-}
-.cross {
-  color: red;
+  width: 100%;
 }
 
-.circle {
-  color: blue;
+.turn-indicator {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem;
+  font-size: 1.5rem;
 }
 
-.againBtn {
-  font-size: 20px;
-  margin-top: 10px;
-  width: 100px;
-  height: 50px;
+.turn {
+  font-size: 2rem;
+  font-weight: bold;
+  opacity: 0.5;
+  transition: all 0.3s ease;
+}
+
+.turn.active {
+  opacity: 1;
+  transform: scale(1.2);
+}
+
+.turn:nth-child(1).active {
+  color: #e74c3c;
+}
+
+.turn:nth-child(3).active {
+  color: #3498db;
+}
+
+.winner-message h2 {
+  font-size: 2rem;
+  margin: 0 0 1rem;
+  color: #2c3e50;
+}
+
+.game-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  margin-top: 1rem;
+}
+
+.btn {
+  padding: 0.8rem 1.5rem;
   border: none;
-  background: #0099ff;
-  color: white;
   border-radius: 5px;
+  font-size: 1rem;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.play-again {
+  background-color: #2ecc71;
+  color: white;
+}
+
+.play-again:hover {
+  background-color: #27ae60;
+  transform: translateY(-2px);
+}
+
+.undo {
+  background-color: #e74c3c;
+  color: white;
+}
+
+.undo:hover {
+  background-color: #c0392b;
+  transform: translateY(-2px);
+}
+
+/* Responsive Design */
+@media (max-width: 500px) {
+  .game-title {
+    font-size: 2rem;
+  }
+
+  .turn-indicator {
+    font-size: 1.2rem;
+  }
+
+  .turn {
+    font-size: 1.5rem;
+  }
+
+  .winner-message h2 {
+    font-size: 1.5rem;
+  }
+
+  .btn {
+    padding: 0.6rem 1rem;
+    font-size: 0.9rem;
+  }
 }

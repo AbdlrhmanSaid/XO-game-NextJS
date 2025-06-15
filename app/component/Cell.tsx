@@ -1,6 +1,6 @@
 import { Dispatch, SetStateAction } from "react";
 
-type goTypes = {
+type CellProps = {
   id: number;
   go: string;
   setGo: Dispatch<SetStateAction<string>>;
@@ -8,38 +8,57 @@ type goTypes = {
   setCells: Dispatch<SetStateAction<string[]>>;
   cell: string;
   winner: string;
+  isWinningCell: boolean;
 };
 
-const Cell = ({ go, setGo, id, cells, setCells, cell, winner }: goTypes) => {
-  const handelCellChange = (cellToChange: string) => {
-    let copyCell = [...cells];
-    copyCell[id] = cellToChange;
-    setCells(copyCell);
+const Cell = ({
+  go,
+  setGo,
+  id,
+  cells,
+  setCells,
+  cell,
+  winner,
+  isWinningCell,
+}: CellProps) => {
+  const handleCellChange = (cellToChange: string) => {
+    const copyCells = [...cells];
+    copyCells[id] = cellToChange;
+    setCells(copyCells);
   };
 
-  const handelClick = (e: any) => {
+  const handleClick = () => {
+    if (winner) return;
+
     const notTaken = !cells[id];
     if (notTaken) {
       if (go === "circle") {
-        handelCellChange("circle");
+        handleCellChange("circle");
         setGo("cross");
       } else if (go === "cross") {
-        handelCellChange("cross");
+        handleCellChange("cross");
         setGo("circle");
       }
     }
   };
 
-  let stopFunction = false;
-
-  if (winner !== "") {
-    stopFunction = true;
-  }
-
   return (
-    <div className="square" onClick={!stopFunction ? handelClick : undefined}>
-      <div className={`contain ${cell}`}>
-        {cell ? (cell === "circle" ? "O" : "X") : ""}
+    <div
+      className={`cell ${isWinningCell ? "winning-cell" : ""}`}
+      onClick={handleClick}
+      data-cell={cell}
+    >
+      <div className={`symbol ${cell}`}>
+        {cell === "circle" ? (
+          <svg viewBox="0 0 100 100">
+            <circle cx="50" cy="50" r="40" />
+          </svg>
+        ) : cell === "cross" ? (
+          <svg viewBox="0 0 100 100">
+            <line x1="20" y1="20" x2="80" y2="80" />
+            <line x1="80" y1="20" x2="20" y2="80" />
+          </svg>
+        ) : null}
       </div>
     </div>
   );
